@@ -3,14 +3,29 @@ package main
 
 import "fmt"
 
+// var nearNpc chan bool = make(chan bool)
+
+// func pertoDe(jogo *Jogo, ox, oy int) bool {
+// 	retorno := (jogo.PosX == (ox-1) || jogo.PosX == (ox+1)) && (jogo.PosY == (oy-1) || jogo.PosY == (oy+1))
+// 	return retorno
+// }
+
+// func setarChan(ch chan bool) {
+// 	ch <- true
+// }
+
 // Atualiza a posição do personagem com base na tecla pressionada (WASD)
 func personagemMover(tecla rune, jogo *Jogo) {
 	dx, dy := 0, 0
 	switch tecla {
-	case 'w': dy = -1 // Move para cima
-	case 'a': dx = -1 // Move para a esquerda
-	case 's': dy = 1  // Move para baixo
-	case 'd': dx = 1  // Move para a direita
+	case 'w':
+		dy = -1 // Move para cima
+	case 'a':
+		dx = -1 // Move para a esquerda
+	case 's':
+		dy = 1 // Move para baixo
+	case 'd':
+		dx = 1 // Move para a direita
 	}
 
 	nx, ny := jogo.PosX+dx, jogo.PosY+dy
@@ -18,6 +33,9 @@ func personagemMover(tecla rune, jogo *Jogo) {
 	if jogoPodeMoverPara(jogo, nx, ny) {
 		jogoMoverElemento(jogo, jogo.PosX, jogo.PosY, dx, dy)
 		jogo.PosX, jogo.PosY = nx, ny
+		// if pertoDe(jogo, 24, 2) {
+		// 	go setarChan(jogo.PertoNpc)
+		// }
 	}
 }
 
@@ -26,11 +44,25 @@ func personagemMover(tecla rune, jogo *Jogo) {
 // Você pode expandir essa função para incluir lógica de interação com objetos
 func personagemInteragir(jogo *Jogo) {
 	// Atualmente apenas exibe uma mensagem de status
-	jogo.StatusMsg = fmt.Sprintf("Interagindo em (%d, %d)", jogo.PosX, jogo.PosY)
+
+	select {
+	// case <-jogo.PertoNpc:
+	// jogo.StatusMsg = "perto do npc"
+	default:
+		jogo.StatusMsg = fmt.Sprintf("Interagindo em (%d, %d)", jogo.PosX, jogo.PosY)
+	}
+	// if <-jogo.PertoNpc {
+	// 	v
+	// } else {
+	// 	jogo.StatusMsg = fmt.Sprintf("Interagindo em (%d, %d)", jogo.PosX, jogo.PosY)
+	// }
+	//vou pôr que, se um canal estiver com true e ele interagir, então vai printar a mensagem do npc
+
 }
 
 // Processa o evento do teclado e executa a ação correspondente
 func personagemExecutarAcao(ev EventoTeclado, jogo *Jogo) bool {
+
 	switch ev.Tipo {
 	case "sair":
 		// Retorna false para indicar que o jogo deve terminar
@@ -41,6 +73,7 @@ func personagemExecutarAcao(ev EventoTeclado, jogo *Jogo) bool {
 	case "mover":
 		// Move o personagem com base na tecla
 		personagemMover(ev.Tecla, jogo)
+
 	}
 	return true // Continua o jogo
 }

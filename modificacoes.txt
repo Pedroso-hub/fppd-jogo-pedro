@@ -1,0 +1,16 @@
+o Npc escuta dois canais: um que diz se o player está perto e outro que diz se a alavanca foi pressionada
+a alavanca, se for pressionada se comunica com o portal e ativa ele
+
+mas se um tempo se passar o portal se desativa automaticamente -> timeout
+
+1- fazer um canal não bufferizado que recebe um booleano quando o player chega perto do Npc. 
+O npc vai estar sempre escutando esse canal e, caso venha algo nele, printa automaticamente na tela 
+que ta perto
+
+
+npc <- (24, 2)
+
+alavanca <- (18, 5)
+
+portal1 <- (22, 21)
+portal1 <- (62, 20)
