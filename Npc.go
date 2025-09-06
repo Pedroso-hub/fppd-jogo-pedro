@@ -1,31 +1,34 @@
 package main
 
-import (
-	"time"
-)
+import "time"
 
 func moverNpc(jogo *Jogo, ch chan bool) {
-
+	y := 2
+	x := 24
+	simbolo := jogo.Mapa[y][x]
 	for {
+
 		for i := 0; i < 6; i++ {
 			if jogo.PosY < 6 {
 				jogo.Passou = true
 				<-ch
-
 			}
 
 			if i > 2 {
-				jogoMoverElemento(jogo, 21+i-3, 2, 1, 0)
+				jogo.Mapa[y][x].simbolo = ' ' // restaura o conteúdo anterior
+				x++
+				jogo.Mapa[y][x] = simbolo
 				time.Sleep(time.Millisecond * 100)
-				interfaceDesenharJogo(jogo)
 			} else {
-				jogoMoverElemento(jogo, 24-i, 2, -1, 0)
+				jogo.Mapa[y][x].simbolo = ' ' // restaura o conteúdo anterior
+				x--
+				jogo.Mapa[y][x] = simbolo
 				time.Sleep(time.Millisecond * 100)
-				interfaceDesenharJogo(jogo)
 			}
+
+			interfaceDesenharJogo(jogo)
 
 		}
 
 	}
-
 }

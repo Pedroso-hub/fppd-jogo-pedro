@@ -3,17 +3,6 @@ package main
 
 import "fmt"
 
-// var nearNpc chan bool = make(chan bool)
-
-// func pertoDe(jogo *Jogo, ox, oy int) bool {
-// 	retorno := (jogo.PosX == (ox-1) || jogo.PosX == (ox+1)) && (jogo.PosY == (oy-1) || jogo.PosY == (oy+1))
-// 	return retorno
-// }
-
-// func setarChan(ch chan bool) {
-// 	ch <- true
-// }
-
 // Atualiza a posição do personagem com base na tecla pressionada (WASD)
 func personagemMover(tecla rune, jogo *Jogo, ch chan bool) {
 	dx, dy := 0, 0
@@ -31,15 +20,13 @@ func personagemMover(tecla rune, jogo *Jogo, ch chan bool) {
 	nx, ny := jogo.PosX+dx, jogo.PosY+dy
 	// Verifica se o movimento é permitido e realiza a movimentação
 	if jogoPodeMoverPara(jogo, nx, ny) {
+
 		jogoMoverElemento(jogo, jogo.PosX, jogo.PosY, dx, dy)
 		jogo.PosX, jogo.PosY = nx, ny
 		if jogo.PosY > 6 && jogo.Passou {
 			jogo.Passou = false
 			ch <- true
 		}
-		// if pertoDe(jogo, 24, 2) {
-		// 	go setarChan(jogo.PertoNpc)
-		// }
 	}
 }
 
@@ -49,18 +36,7 @@ func personagemMover(tecla rune, jogo *Jogo, ch chan bool) {
 func personagemInteragir(jogo *Jogo) {
 	// Atualmente apenas exibe uma mensagem de status
 
-	select {
-	// case <-jogo.PertoNpc:
-	// jogo.StatusMsg = "perto do npc"
-	default:
-		jogo.StatusMsg = fmt.Sprintf("Interagindo em (%d, %d)", jogo.PosX, jogo.PosY)
-	}
-	// if <-jogo.PertoNpc {
-	// 	v
-	// } else {
-	// 	jogo.StatusMsg = fmt.Sprintf("Interagindo em (%d, %d)", jogo.PosX, jogo.PosY)
-	// }
-	//vou pôr que, se um canal estiver com true e ele interagir, então vai printar a mensagem do npc
+	jogo.StatusMsg = fmt.Sprintf("Interagindo em (%d, %d), ultimo visitado (%c)", jogo.PosX, jogo.PosY, jogo.UltimoVisitado.simbolo)
 
 }
 
