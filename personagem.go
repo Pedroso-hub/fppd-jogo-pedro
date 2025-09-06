@@ -23,7 +23,8 @@ func personagemMover(tecla rune, jogo *Jogo, ch chan bool) {
 
 		jogoMoverElemento(jogo, jogo.PosX, jogo.PosY, dx, dy)
 		jogo.PosX, jogo.PosY = nx, ny
-		if jogo.PosY > 6 && jogo.Passou {
+		if (jogo.PosY > 6 || jogo.PosX > 30) && jogo.Passou {
+			//libera
 			jogo.Passou = false
 			ch <- true
 		}
