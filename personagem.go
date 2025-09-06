@@ -28,6 +28,7 @@ func personagemMover(tecla rune, jogo *Jogo, ch chan bool) {
 			jogo.Passou = false
 			ch <- true
 		}
+
 	}
 }
 

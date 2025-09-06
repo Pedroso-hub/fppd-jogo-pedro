@@ -116,9 +116,9 @@ func jogoMoverElemento(jogo *Jogo, x, y, dx, dy int) {
 	// Obtem elemento atual na posição
 	elemento := jogo.Mapa[y][x] // guarda o conteúdo atual da posição
 	//adquirir ticket
-	semaforoBinario <- true
+	//semaforoBinario <- true
 	jogo.Mapa[y][x] = jogo.UltimoVisitado   // restaura o conteúdo anterior
 	jogo.UltimoVisitado = jogo.Mapa[ny][nx] // guarda o conteúdo atual da nova posição
 	jogo.Mapa[ny][nx] = elemento            // move o elemento
-	<-semaforoBinario
+	//<-semaforoBinario
 }

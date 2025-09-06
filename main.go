@@ -25,7 +25,9 @@ func main() {
 	interfaceDesenharJogo(&jogo)
 
 	ch := make(chan bool)
+	go teleportar(&jogo)
 	go moverNpc(&jogo, ch)
+
 	//go AtivarAlavanca()
 	// Loop principal de entrada
 	//loop infinito
