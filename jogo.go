@@ -20,6 +20,7 @@ type Jogo struct {
 	PosX, PosY     int          // posição atual do personagem
 	UltimoVisitado Elemento     // elemento que estava na posição do personagem antes de mover
 	StatusMsg      string       // mensagem para a barra de status
+	Passou         bool
 	//PertoNpc       chan bool    //
 }
 

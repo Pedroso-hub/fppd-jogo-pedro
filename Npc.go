@@ -9,7 +9,7 @@ func moverNpc(jogo *Jogo, ch chan bool) {
 	for {
 		for i := 0; i < 6; i++ {
 			if jogo.PosY < 6 {
-
+				jogo.Passou = true
 				<-ch
 
 			}

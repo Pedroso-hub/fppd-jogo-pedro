@@ -26,14 +26,14 @@ func main() {
 
 	ch := make(chan bool)
 	go moverNpc(&jogo, ch)
-
+	//go AtivarAlavanca()
 	// Loop principal de entrada
 	//loop infinito
 	for {
 
 		evento := interfaceLerEventoTeclado()
 		//continuar vai ser falso se o player apertar sair
-		continuar := personagemExecutarAcao(evento, &jogo)
+		continuar := personagemExecutarAcao(evento, &jogo, ch)
 
 		if !continuar {
 			break

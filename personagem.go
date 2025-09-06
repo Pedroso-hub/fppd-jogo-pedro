@@ -15,7 +15,7 @@ import "fmt"
 // }
 
 // Atualiza a posição do personagem com base na tecla pressionada (WASD)
-func personagemMover(tecla rune, jogo *Jogo) {
+func personagemMover(tecla rune, jogo *Jogo, ch chan bool) {
 	dx, dy := 0, 0
 	switch tecla {
 	case 'w':
@@ -33,6 +33,10 @@ func personagemMover(tecla rune, jogo *Jogo) {
 	if jogoPodeMoverPara(jogo, nx, ny) {
 		jogoMoverElemento(jogo, jogo.PosX, jogo.PosY, dx, dy)
 		jogo.PosX, jogo.PosY = nx, ny
+		if jogo.PosY > 6 && jogo.Passou {
+			jogo.Passou = false
+			ch <- true
+		}
 		// if pertoDe(jogo, 24, 2) {
 		// 	go setarChan(jogo.PertoNpc)
 		// }
@@ -61,7 +65,7 @@ func personagemInteragir(jogo *Jogo) {
 }
 
 // Processa o evento do teclado e executa a ação correspondente
-func personagemExecutarAcao(ev EventoTeclado, jogo *Jogo) bool {
+func personagemExecutarAcao(ev EventoTeclado, jogo *Jogo, ch chan bool) bool {
 
 	switch ev.Tipo {
 	case "sair":
@@ -72,7 +76,7 @@ func personagemExecutarAcao(ev EventoTeclado, jogo *Jogo) bool {
 		personagemInteragir(jogo)
 	case "mover":
 		// Move o personagem com base na tecla
-		personagemMover(ev.Tecla, jogo)
+		personagemMover(ev.Tecla, jogo, ch)
 
 	}
 	return true // Continua o jogo

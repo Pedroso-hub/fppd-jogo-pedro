@@ -13,4 +13,4 @@ npc <- (24, 2)
 alavanca <- (18, 5)
 
 portal1 <- (22, 21)
-portal1 <- (62, 20)
+portal2 <- (62, 20)
