@@ -13,13 +13,11 @@ func pertoDe(jogo *Jogo, ox, oy int) bool {
 	return retorno
 }
 
-var passouPortal chan bool = make(chan bool)
-
 func AtivarAlavanca(jogo *Jogo) {
 	//se o player chegar perto e apertar interagir, ativa a alavanca
 	//mudarAtivacaoAlavanca(jogo, semaforoAlavanca, true)
 	for {
-		if acessarAtivacaoAlavanca(jogo, semaforoAlavanca) {
+		if acessarAtivacaoAlavanca(jogo, semaforoAlavanca) == true {
 			select {
 			case <-passouPortal:
 				mudarAtivacaoAlavanca(jogo, semaforoAlavanca, false)

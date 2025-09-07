@@ -101,7 +101,7 @@ func jogoPodeMoverPara(jogo *Jogo, x, y int) bool {
 	}
 
 	// Verifica se o elemento de destino é tangível (bloqueia passagem)
-	if jogo.Mapa[y][x].tangivel {
+	if acessarMatriz(jogo, y, x, semaforoAcessoMatriz).tangivel {
 		return false
 	}
 
@@ -115,10 +115,10 @@ func jogoMoverElemento(jogo *Jogo, x, y, dx, dy int) {
 	nx, ny := x+dx, y+dy
 
 	// Obtem elemento atual na posição
-	elemento := jogo.Mapa[y][x] // guarda o conteúdo atual da posição
+	elemento := acessarMatriz(jogo, y, x, semaforoAcessoMatriz) // guarda o conteúdo atual da posição
 
-	jogo.Mapa[y][x] = jogo.UltimoVisitado   // restaura o conteúdo anterior
-	jogo.UltimoVisitado = jogo.Mapa[ny][nx] // guarda o conteúdo atual da nova posição
-	jogo.Mapa[ny][nx] = elemento            // move o elemento
+	mudarMatriz(jogo, y, x, jogo.UltimoVisitado, semaforoMatriz)            // restaura o conteúdo anterior
+	jogo.UltimoVisitado = acessarMatriz(jogo, ny, nx, semaforoAcessoMatriz) // guarda o conteúdo atual da nova posição
+	mudarMatriz(jogo, ny, nx, elemento, semaforoMatriz)                     // move o elemento
 
 }

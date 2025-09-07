@@ -2,16 +2,21 @@ package main
 
 var semaforoAlavanca chan bool = make(chan bool, 1)
 
+var passouPortal chan bool = make(chan bool)
+
 func teleportar(jogo *Jogo, passou chan bool) {
 	//jogo.StatusMsg = "ta rolando a teleportar"
 	for {
 		if jogo.PosX == 22 && jogo.PosY == 21 && acessarAtivacaoAlavanca(jogo, semaforoAlavanca) {
 			jogo.PosX = 62
 			jogo.PosY = 20
-			jogo.Mapa[20][62] = Personagem
-			jogo.Mapa[21][22] = Portal
+			mudarMatriz(jogo, 20, 62, Personagem, semaforoMatriz)
+
+			mudarMatriz(jogo, 21, 22, Portal, semaforoMatriz)
+
 			passou <- true
-			interfaceDesenharJogo(jogo)
+
+			desenhar(jogo, semaforoDesenhar)
 		}
 	}
 }
@@ -20,7 +25,7 @@ func teleportar(jogo *Jogo, passou chan bool) {
 func acessarAtivacaoAlavanca(jogo *Jogo, ch chan bool) bool {
 	ch <- true
 	ativou := jogo.ativouAlavanca
-	<-ch
+	defer liberarSemaforo(ch)
 	return ativou
 }
 

@@ -22,7 +22,7 @@ func main() {
 	}
 
 	// Desenha o estado inicial do jogo
-	interfaceDesenharJogo(&jogo)
+	desenhar(&jogo, semaforoDesenhar)
 
 	ch := make(chan bool)
 	go teleportar(&jogo, passouPortal)
@@ -40,6 +40,6 @@ func main() {
 			break
 		}
 
-		interfaceDesenharJogo(&jogo)
+		desenhar(&jogo, semaforoDesenhar)
 	}
 }

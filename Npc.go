@@ -5,6 +5,10 @@ import "time"
 var yNpc int = 2
 var xNpc int = 24
 
+var semaforoDesenhar chan bool = make(chan bool, 1)
+var semaforoMatriz chan bool = make(chan bool, 1)
+var semaforoAcessoMatriz chan bool = make(chan bool, 1)
+
 func moverNpc(jogo *Jogo, ch chan bool) {
 	for {
 		for i := 0; i < 6; i++ {
@@ -13,15 +17,40 @@ func moverNpc(jogo *Jogo, ch chan bool) {
 				jogo.Passou = true
 				<-ch
 			}
-			jogo.Mapa[yNpc][xNpc] = Vazio
+			mudarMatriz(jogo, yNpc, xNpc, Vazio, semaforoMatriz)
+
 			if i > 2 {
 				xNpc++
 			} else {
 				xNpc--
 			}
-			jogo.Mapa[yNpc][xNpc] = Npc
+			mudarMatriz(jogo, yNpc, xNpc, Npc, semaforoMatriz)
+
 			time.Sleep(time.Millisecond * 100)
-			interfaceDesenharJogo(jogo)
+			desenhar(jogo, semaforoDesenhar)
 		}
 	}
+}
+
+func desenhar(jogo *Jogo, semaforoDesenhar chan bool) {
+	semaforoDesenhar <- true
+	interfaceDesenharJogo(jogo)
+	<-semaforoDesenhar
+}
+
+func mudarMatriz(jogo *Jogo, y, x int, elem Elemento, semaforoMatriz chan bool) {
+	semaforoMatriz <- true
+	jogo.Mapa[y][x] = elem
+	<-semaforoMatriz
+}
+
+func acessarMatriz(jogo *Jogo, y, x int, semaforoAcessoMatriz chan bool) Elemento {
+	semaforoAcessoMatriz <- true
+	elem := jogo.Mapa[y][x]
+	defer liberarSemaforo(semaforoAcessoMatriz)
+	return elem
+}
+
+func liberarSemaforo(sem chan bool) {
+	<-sem
 }
