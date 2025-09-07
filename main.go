@@ -25,16 +25,17 @@ func main() {
 	desenhar(&jogo, semaforoDesenhar)
 
 	ch := make(chan bool)
-	go teleportar(&jogo, passouPortal)
+	go teleportar(&jogo, passouPortal, passouPortal2)
 	go moverNpc(&jogo, ch)
 	go AtivarAlavanca(&jogo)
+	go alternarSimbolo(&jogo, passouPortal2, ch2)
 	// Loop principal de entrada
 	//loop infinito
 	for {
 
 		evento := interfaceLerEventoTeclado()
 		//continuar vai ser falso se o player apertar sair
-		continuar := personagemExecutarAcao(evento, &jogo, ch)
+		continuar := personagemExecutarAcao(evento, &jogo, ch, ch2)
 
 		if !continuar {
 			break

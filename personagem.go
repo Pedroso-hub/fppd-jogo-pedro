@@ -4,7 +4,7 @@ package main
 import "fmt"
 
 // Atualiza a posição do personagem com base na tecla pressionada (WASD)
-func personagemMover(tecla rune, jogo *Jogo, ch chan bool) {
+func personagemMover(tecla rune, jogo *Jogo, ch chan bool, ch2 chan bool) {
 	dx, dy := 0, 0
 	switch tecla {
 	case 'w':
@@ -25,6 +25,7 @@ func personagemMover(tecla rune, jogo *Jogo, ch chan bool) {
 			//libera
 			jogo.Passou = false
 			ch <- true
+			ch2 <- true
 		}
 	}
 }
@@ -44,7 +45,7 @@ func personagemInteragir(jogo *Jogo) {
 }
 
 // Processa o evento do teclado e executa a ação correspondente
-func personagemExecutarAcao(ev EventoTeclado, jogo *Jogo, ch chan bool) bool {
+func personagemExecutarAcao(ev EventoTeclado, jogo *Jogo, ch chan bool, ch2 chan bool) bool {
 
 	switch ev.Tipo {
 	case "sair":
@@ -55,7 +56,7 @@ func personagemExecutarAcao(ev EventoTeclado, jogo *Jogo, ch chan bool) bool {
 		personagemInteragir(jogo)
 	case "mover":
 		// Move o personagem com base na tecla
-		personagemMover(ev.Tecla, jogo, ch)
+		personagemMover(ev.Tecla, jogo, ch, ch2)
 
 	}
 	return true // Continua o jogo

@@ -9,7 +9,6 @@ func pertoDe(jogo *Jogo, ox, oy int) bool {
 	somaJogo := jogo.PosX + jogo.PosY
 	somaObj := ox + oy
 	retorno := somaJogo == somaObj-1 || somaJogo == somaObj+1
-
 	return retorno
 }
 
@@ -17,7 +16,7 @@ func AtivarAlavanca(jogo *Jogo) {
 	//se o player chegar perto e apertar interagir, ativa a alavanca
 	//mudarAtivacaoAlavanca(jogo, semaforoAlavanca, true)
 	for {
-		if acessarAtivacaoAlavanca(jogo, semaforoAlavanca) == true {
+		if acessarAtivacaoAlavanca(jogo, semaforoAlavanca) {
 			select {
 			case <-passouPortal:
 				mudarAtivacaoAlavanca(jogo, semaforoAlavanca, false)

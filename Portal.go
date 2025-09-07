@@ -3,8 +3,9 @@ package main
 var semaforoAlavanca chan bool = make(chan bool, 1)
 
 var passouPortal chan bool = make(chan bool)
+var passouPortal2 chan bool = make(chan bool)
 
-func teleportar(jogo *Jogo, passou chan bool) {
+func teleportar(jogo *Jogo, passou, passou2 chan bool) {
 	//jogo.StatusMsg = "ta rolando a teleportar"
 	for {
 		if jogo.PosX == 22 && jogo.PosY == 21 && acessarAtivacaoAlavanca(jogo, semaforoAlavanca) {
@@ -15,6 +16,7 @@ func teleportar(jogo *Jogo, passou chan bool) {
 			mudarMatriz(jogo, 21, 22, Portal, semaforoMatriz)
 
 			passou <- true
+			passou2 <- true
 
 			desenhar(jogo, semaforoDesenhar)
 		}

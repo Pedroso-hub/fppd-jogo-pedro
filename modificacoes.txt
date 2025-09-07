@@ -10,6 +10,8 @@ que ta perto
 
 npc <- (24, 2)
 
+inimigo <- 28, 19
+
 alavanca <- (19, 4)
 
 portal1 <- (22, 21)

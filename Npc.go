@@ -7,7 +7,6 @@ var xNpc int = 24
 
 var semaforoDesenhar chan bool = make(chan bool, 1)
 var semaforoMatriz chan bool = make(chan bool, 1)
-var semaforoAcessoMatriz chan bool = make(chan bool, 1)
 
 func moverNpc(jogo *Jogo, ch chan bool) {
 	for {
@@ -44,10 +43,10 @@ func mudarMatriz(jogo *Jogo, y, x int, elem Elemento, semaforoMatriz chan bool) 
 	<-semaforoMatriz
 }
 
-func acessarMatriz(jogo *Jogo, y, x int, semaforoAcessoMatriz chan bool) Elemento {
-	semaforoAcessoMatriz <- true
+func acessarMatriz(jogo *Jogo, y, x int, semaforoMatriz chan bool) Elemento {
+	semaforoMatriz <- true
 	elem := jogo.Mapa[y][x]
-	defer liberarSemaforo(semaforoAcessoMatriz)
+	defer liberarSemaforo(semaforoMatriz)
 	return elem
 }
 
