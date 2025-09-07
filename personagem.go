@@ -16,11 +16,9 @@ func personagemMover(tecla rune, jogo *Jogo, ch chan bool) {
 	case 'd':
 		dx = 1 // Move para a direita
 	}
-
 	nx, ny := jogo.PosX+dx, jogo.PosY+dy
 	// Verifica se o movimento é permitido e realiza a movimentação
 	if jogoPodeMoverPara(jogo, nx, ny) {
-
 		jogoMoverElemento(jogo, jogo.PosX, jogo.PosY, dx, dy)
 		jogo.PosX, jogo.PosY = nx, ny
 		if (jogo.PosY > 6 || jogo.PosX > 30) && jogo.Passou {
@@ -28,7 +26,6 @@ func personagemMover(tecla rune, jogo *Jogo, ch chan bool) {
 			jogo.Passou = false
 			ch <- true
 		}
-
 	}
 }
 
@@ -38,8 +35,12 @@ func personagemMover(tecla rune, jogo *Jogo, ch chan bool) {
 func personagemInteragir(jogo *Jogo) {
 	// Atualmente apenas exibe uma mensagem de status
 
-	jogo.StatusMsg = fmt.Sprintf("Interagindo em (%d, %d), ultimo visitado (%c)", jogo.PosX, jogo.PosY, jogo.UltimoVisitado.simbolo)
-
+	if pertoDe(jogo, 19, 4) {
+		jogo.StatusMsg = "ativou o portal"
+		mudarAtivacaoAlavanca(jogo, semaforoAlavanca, true)
+	} else {
+		jogo.StatusMsg = fmt.Sprintf("Interagindo em (%d, %d), ultimo visitado (%c)", jogo.PosX, jogo.PosY, jogo.UltimoVisitado.simbolo)
+	}
 }
 
 // Processa o evento do teclado e executa a ação correspondente

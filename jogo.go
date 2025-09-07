@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-var semaforoBinario chan bool = make(chan bool, 1)
+//var semaforoBinario chan bool = make(chan bool, 1)
 
 // Elemento representa qualquer objeto do mapa (parede, personagem, vegetação, etc)
 type Elemento struct {
@@ -23,6 +23,7 @@ type Jogo struct {
 	UltimoVisitado Elemento     // elemento que estava na posição do personagem antes de mover
 	StatusMsg      string       // mensagem para a barra de status
 	Passou         bool
+	ativouAlavanca bool
 	//PertoNpc       chan bool    //
 }
 
@@ -115,10 +116,9 @@ func jogoMoverElemento(jogo *Jogo, x, y, dx, dy int) {
 
 	// Obtem elemento atual na posição
 	elemento := jogo.Mapa[y][x] // guarda o conteúdo atual da posição
-	//adquirir ticket
-	//semaforoBinario <- true
+
 	jogo.Mapa[y][x] = jogo.UltimoVisitado   // restaura o conteúdo anterior
 	jogo.UltimoVisitado = jogo.Mapa[ny][nx] // guarda o conteúdo atual da nova posição
 	jogo.Mapa[ny][nx] = elemento            // move o elemento
-	//<-semaforoBinario
+
 }

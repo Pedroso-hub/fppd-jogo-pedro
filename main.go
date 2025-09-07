@@ -16,7 +16,7 @@ func main() {
 
 	// Inicializa o jogo
 	jogo := jogoNovo()
-	//jogo.PertoNpc = make(chan bool, 1)
+	jogo.ativouAlavanca = false
 	if err := jogoCarregarMapa(mapaFile, &jogo); err != nil {
 		panic(err)
 	}
@@ -25,10 +25,9 @@ func main() {
 	interfaceDesenharJogo(&jogo)
 
 	ch := make(chan bool)
-	go teleportar(&jogo)
+	go teleportar(&jogo, passouPortal)
 	go moverNpc(&jogo, ch)
-
-	//go AtivarAlavanca()
+	go AtivarAlavanca(&jogo)
 	// Loop principal de entrada
 	//loop infinito
 	for {

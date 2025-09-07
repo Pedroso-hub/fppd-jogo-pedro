@@ -10,7 +10,7 @@ que ta perto
 
 npc <- (24, 2)
 
-alavanca <- (18, 5)
+alavanca <- (19, 4)
 
 portal1 <- (22, 21)
 portal2 <- (62, 20)
